@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Tree</title>
+    <script>
+        class Node {
+            constructor(value) {
+                this.value = value,
+                    this.left = null,
+                    this.right = null
+            }
+        }
+        class BSTree {
+            constructor() {
+                this.root = null
+            }
+            isTreeEmpty() {
+                return this.root === null;
+            }
+            //creating the binary tree
+            addNode(val) {
+                let newNode = new Node(val);
+                if (this.isTreeEmpty()) {
+                    this.root = newNode;
+                } else {
+                    this.insertNode(this.root, newNode);
+                }
+            }
+            //insertion of node
+            insertNode(root, newNode) {
+                if (root.value > newNode.value) {
+                    if (root.left === null) {
+                        root.left = newNode;
+                    } else {
+                        this.insertNode(root.left, newNode);
+                    }
+                }
+                else {
+                    if (root.right === null) {
+                        root.right = newNode;
+                    } else {
+                        this.insertNode(root.right, newNode);
+                    }
+                }
+            }
+            //in order traversing 25,50,75,100,125,150,175
+            inOrder(root) {
+                if (root === null) {
+                    return null;
+                } else {
+                    this.inOrder(root.left);
+                    console.warn(root.value);
+                    this.inOrder(root.right);
+                }
+            }
+            //preorder traversing 100,50,25,75,150,125,175
+            preOrder(root) {
+                if (root === null) {
+                    return null;
+                } else {
+                    console.warn(root.value);
+                    this.preOrder(root.left);
+                    this.preOrder(root.right);
+                }
+            }
+            //postOrder traversing 25,75,50,125,175,150,100 
+            postOrder(root) {
+                if (root === null) {
+                    return null;
+                } else {
+                    this.postOrder(root.left);
+                    this.postOrder(root.right);
+                    console.log(root.value);
+                }
+            }
+            //Breadth First Search traversing 100,50,150,25,75,125,175
+            BFStravers(root) {
+                let array = [];
+                array.push(root);
+                while (array.length) {
+                    let current = array.shift();
+                    if (current.left) {
+                        array.push(current.left);
+                    }
+                    if (current.right) {
+                        array.push(current.right);
+                    }
+                    console.warn(current.value);
+                }
+            }
+            //find a value
+            findValue(root, val) {
+                if (root == null) {
+                    return null;
+                } else if (root.value === val) {
+                    console.warn(root.value);
+                } else if (val < root.value) {
+                    this.findValue(root.left, val);
+                } else {
+                    this.findValue(root.right, val);
+                }
+            }
+            //minimum value
+            minimumValue(root) {
+                while (root.left !== null) {
+                    root = root.left;
+                }
+                return root.value
+            }
+            //maximum value
+            maximumValue(root) {
+                while (root.right !== null) {
+                    root = root.right;
+                }
+                console.log(root.value);
+            }
+            //deleting of an node
+            delete(val){
+                this.root = this.removeNode(this.root, val);
+            }
+            removeNode(root, val){
+                 if(root.value===null){
+                    return null;
+                 }else if(val<root.value){
+                    root.left = this.removeNode(root.left, val);
+                 }else if(val>root.value){
+                    root.right = this.removeNode(root.right, val);
+                 }else{
+                    if(!root.left && !root.right){
+                        return null;
+                    }else if(!root.left){
+                        return root.right;
+                    }else if(!root.right){
+                        return root.left;
+                    }else{
+                        root.value = this.minimumValue(root.right);
+                        root.right = this.removeNode(root.right, root.value);
+                    }
+                 }
+                 return root;
+            }
+        }
+        let bstree = new BSTree();
+        bstree.addNode(100);
+        bstree.addNode(50);
+        bstree.addNode(25);
+        bstree.addNode(20);
+        bstree.addNode(75);
+        bstree.addNode(150);
+        bstree.addNode(125);
+        bstree.addNode(175);
+        // console.warn(bstree);
+        // bstree.inOrder(bstree.root);
+        // bstree.preOrder(bstree.root);
+        // bstree.postOrder(bstree.root);
+        // bstree.BFStravers(bstree.root);
+        // bstree.findValue(bstree.root,175);
+        // bstree.minimumValue(bstree.root);
+        // bstree.maximumValue(bstree.root);
+        bstree.delete(25);
+        console.warn(bstree.root);
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
